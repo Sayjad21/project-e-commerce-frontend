@@ -35,12 +35,16 @@ export default function Product() {
       console.error(error.message);
     }
   }
-
+  useEffect(() => {
+    // Call getProduct when the component mounts (initial load)
+    getProduct();
+  }, []); 
   // useEffect(() => {
   //     console.log(productInfo);
   //   }, [productInfo]);
 
   return (
+    
     <div className="container mt-4">
       <div className="mb-3">
         <label htmlFor="category" className="form-label">Category</label>
@@ -127,52 +131,25 @@ export default function Product() {
           <input type="range" class="form-range" min="0" max="5" step="0.1" id="customRange4" value={maxrating}
             onChange={e => setmaxrating(e.target.value)}></input>
         </div>
-
+        
       </div>
       <button type="button" class="btn btn-danger" onClick={getProduct} style={{ display: 'block' }}>Search</button>
       {/* Empty Table */}
       {/* ProductName, BrandName, ProductQuantity, Price, Specification, Rating, DiscountOffer, */}
-      {productInfo === null ? (
-        <div class="spinner-border text-primary my-5" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>
-      ) : productInfo.length > 0 ? (
-        // <table className="table">
-        //   <thead>
-        //     <tr>
-        //       <th scope="col">Category</th>
-        //       <th scope="col">Subcategory</th>
-        //       <th scope="col">Product Name</th>
-        //       <th scope="col">Brand Name</th>
-        //       <th scope="col">Product Quantity</th>
-        //       <th scope="col">Price</th>
-        //       <th scope="col">Specification</th>
-        //       <th scope="col">Rating</th>
-        //       <th scope="col">Discount Offer</th>
-        //     </tr>
-        //   </thead>
-        //   <tbody>
-        //     {productInfo.map((product, index) => (
-        //       <tr key={index}>
-        //         <td>{product.categoryname}</td>
-        //         <td>{product.subcategoryname}</td>
-        //         <td>{product.productname}</td>
-        //         <td>{product.brandname}</td>
-        //         <td>{product.productquantity}</td>
-        //         <td>{product.price}</td>
-        //         <td>{product.specification}</td>
-        //         <td>{product.rating}</td>
-        //         <td>{product.discountoffer}</td>
-        //       </tr>
-        //     ))}
-        //   </tbody>
-        // </table>
-        <div className="container">
-        {productInfo.map((product) => (
-          <SingleProduct product={product} />
-        ))}
-      </div>
-      
+      {(productInfo === null) ? (
+       
+       
+        <div>loading.......</div>
+        
+
+      ) : productInfo.length > 0 || (productSubCat === '' || productCat === '') ? (
+          
+          <div className="container my-5">
+            {productInfo.map((product) => (
+              <SingleProduct product={product} />
+            ))}
+          </div>
+
 
       ) : (
         <p>No product information available.</p>
